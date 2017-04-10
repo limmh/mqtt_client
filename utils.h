@@ -1,3 +1,4 @@
+/*
 MIT License
 
 Copyright (c) 2017 MH Lim
@@ -19,3 +20,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#ifndef MQTT_CLIENT_UTILS_H
+#define MQTT_CLIENT_UTILS_H
+
+#include <stddef.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+char *utils_strdup(const char *src);
+void utils_delete(void *mem);
+size_t utils_get_stdin(char **in);
+size_t utils_gets_quiet(char **in);
+size_t utils_read_file(const char *file, void **out);
+void utils_generate_random_sequence(const char *pattern, size_t pattern_size, char *buffer, size_t buffer_size);
+int utils_hex_sequence_is_valid(const char *hex_sequence);
+size_t utils_hex_sequence_to_binary_data(const char *hex_sequence, void **output);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
