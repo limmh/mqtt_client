@@ -40,7 +40,7 @@ char *utils_strdup(const char *src)
 {
 	size_t length = strlen(src);
 	size_t size = length + 1;
-	char *str = malloc(size);
+	char *str = (char*) malloc(size);
 	if (str) {
 		strncpy(str, src, length);
 		str[length] = '\0';

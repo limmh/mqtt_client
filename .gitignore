@@ -12,11 +12,13 @@
 *.a
 *.la
 *.lo
+*.lib
 
 # Shared objects (inc. Windows DLLs)
 *.so
 *.so.*
 *.dylib
+*.dll
 
 # Executables
 *.exe

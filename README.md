@@ -38,7 +38,7 @@ A Makefile for GNU/Linux is available.
 The Mosquitto library is not included.
 For successful compilation, place the mosquitto.h header file and the mosquitto library file in the same folder as the client source files.
 OpenSSL, which can be obtained from the package manager of your distro, should be installed prior to compilation.
-The client has been compiled successfully and tested on Debian 8 and Ubuntu 16.10.
+The client has been compiled successfully and tested on Debian 8, Ubuntu 16.10 and CentOS 7.
 
 The distribution includes the library binary files and the necessary header files (including mosquitto.h) for Windows.
 A Visual Studio 2015 solution is available and all of the library DLLs are built to link to VC++ 2015 runtime.

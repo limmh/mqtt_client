@@ -156,7 +156,7 @@ static void on_message(struct mosquitto *m, void *obj, const struct mosquitto_me
 
 static void on_unsubscribe(struct mosquitto *m, void *obj, int mid)
 {
-	printf("\nPacket ID %d: The topic has been unsubscribed.\n>> ", mid);
+	printf("Packet ID %d: The topic has been unsubscribed.\n", mid);
 }
 
 static void get_topic(char **input)

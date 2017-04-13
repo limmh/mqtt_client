@@ -1,5 +1,5 @@
 # change the settings according to your compiler
-CC=gcc
+CC=cc
 CFLAGS=-std=c99 -Wall
 LFLAGS=-L. -lmosquitto -pthread -lcrypto -lssl
 
