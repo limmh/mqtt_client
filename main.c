@@ -544,7 +544,7 @@ static void client_run(client_s *c)
 		utils_get_stdin(&input);
 		if (!input)
 			continue;
-		if (strcasecmp(input, "subscribe") == 0) {
+		if (!strcasecmp(input, "subscribe")) {
 			client_subscribe(c);
 		} else if (!strcasecmp(input, "publish")) {
 			client_publish_message(c);
@@ -604,7 +604,10 @@ static void *output_thread(void *arg)
 	}
 
 	bool output_to_file = fp ? true : false;
-	fclose(fp);
+	if (fp) {
+		fclose(fp);
+		fp = NULL;
+	}
 
 	bool running;
 	do {
@@ -623,8 +626,9 @@ static void *output_thread(void *arg)
 					queue_delete_data(msg);
 					queue_pop_front(c->received, (void**) &msg);
 				}
+				fclose(fp);
+				fp = NULL;
 			}
-			fclose(fp);
 			sleep(1);
 			running = client_is_running(c);
 		}
