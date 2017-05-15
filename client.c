@@ -123,7 +123,7 @@ static int file_can_be_opened(const char *file)
 
 int mqtt_client_parse_command_line(int argc, char *argv[], mqtt_client_info_s *info)
 {
-	int ret = 0, i = 0, last_error = 0;
+	int i = 0, last_error = 0;
 	enum param_error_s param_error = param_error_success;
 	int np = 0, nka = 0, ncs = 0, nwq = 0, nr = 0, nvs = 0, nver = 0, ntls = 0;
 	mqtt_client_info_delete(info);
@@ -398,10 +398,10 @@ int mqtt_client_parse_command_line(int argc, char *argv[], mqtt_client_info_s *i
 			break;
 		}
 		mqtt_client_info_delete(info);
-		exit(ret);
+		return 0;
 	}
 
-	return ret;
+	return 1;
 }
 
 void mqtt_client_print_usage(const char *program_name)

@@ -223,7 +223,9 @@ static bool get_retain(void)
 				break;
 			}
 		}
-	} 
+	}
+	if (input)
+		utils_delete(input);
 	return retain;
 }
 
@@ -281,7 +283,11 @@ static int client_init(int argc, char *argv[], client_s *c)
 	}
 
 	mqtt_client_info_init(&c->info);
-	mqtt_client_parse_command_line(argc, argv, &c->info);
+	if (!mqtt_client_parse_command_line(argc, argv, &c->info)) {
+		queue_destroy(c->received);
+		return -3;
+	}
+
 	if (NULL == c->info.client_id || '\0' == c->info.client_id[0]) {
 		char buffer[24];
 		if (c->info.client_id)
@@ -296,7 +302,7 @@ static int client_init(int argc, char *argv[], client_s *c)
 		pthread_mutex_destroy(&c->mutex);
 		queue_destroy(c->received);
 		printf("Error %d: %s\n", error, mosquitto_strerror(error));
-		return -3;
+		return -4;
 	}
 
 	int mqtt_version;
@@ -334,14 +340,14 @@ static int client_init(int argc, char *argv[], client_s *c)
 			printf("The client certificate file is not specified.\n");
 		if (NULL == c->info.private_key)
 			printf("The client private key file is not specified.\n");
-		return -4;
+		return -5;
 	}
 
 	if (valid_tls) {
 		rc = mosquitto_tls_set(c->mqtt, c->info.ca_cert, NULL, c->info.cert, c->info.private_key, NULL);
 		if (MOSQ_ERR_SUCCESS != rc) {
 			printf("Error in TLS configuration. %s\n", mosquitto_strerror(rc));
-			return -5;
+			return -6;
 		}
 		int verify_server = c->info.verify_server ? 1 : 0;
 		const char *tls_version;
@@ -360,7 +366,7 @@ static int client_init(int argc, char *argv[], client_s *c)
 		rc = mosquitto_tls_opts_set(c->mqtt, verify_server, tls_version, NULL);
 		if (MOSQ_ERR_SUCCESS != rc) {
 			printf("Error in setting TLS options. %s\n", mosquitto_strerror(rc));
-			return -6;
+			return -7;
 		}
 	}
 
@@ -506,6 +512,7 @@ static void client_publish_file(client_s *c)
 			}
 			utils_delete(file_path);
 		}
+		utils_delete(topic);
 	}
 }
 
@@ -520,6 +527,7 @@ static void client_unsubscribe(client_s *c)
 			printf("Packet ID %d: Topic \"%s\" is being unsubscribed.\n", mid, topic);
 		else 
 			printf("Failed to unsubscribe the topic \"%s\". Error %d: %s\n", topic, rc, mosquitto_strerror(rc));
+		utils_delete(topic);
 	}
 }
 

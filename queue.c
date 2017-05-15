@@ -100,6 +100,7 @@ void queue_clear(queue_s *q)
 void queue_destroy(queue_s *q)
 {
 	queue_clear(q);
+	pthread_mutex_destroy(&q->mutex);
 	free(q);
 }
 
